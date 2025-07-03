@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShopeeKlik ID</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-gray-100 pt-[122px] md:pt-[122px]">
+    <!-- Header -->
+    <header
+      class="bg-orange-600 text-white p-4 shadow fixed top-0 left-0 right-0 z-50"
+    >
+      <div
+        class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+      >
+        <div class="flex items-center justify-between w-full md:w-auto">
+          <div class="text-lg font-bold">ShopeeKlik ID</div>
+          <button id="menuBtn" class="md:hidden text-white text-2xl">
+            <i class="ph ph-list"></i>
+          </button>
+        </div>
+        <!-- Search -->
+        <div class="relative w-full md:w-[550px] lg:w-[600px]">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Cari produk..."
+            class="rounded px-8 py-2 text-black w-full text-sm md:py-2.5"
+          />
+          <i
+            class="ph ph-magnifying-glass absolute left-2 icon-adjust text-black text-base"
+          ></i>
+          <button
+            onclick="clearSearch()"
+            class="absolute right-2 icon-adjust text-black text-base"
+            title="Hapus"
+          >
+            <i class="ph ph-x-circle"></i>
+          </button>
+        </div>
+        <!-- Menu -->
+        <nav class="hidden md:flex gap-6 text-sm items-center">
+          <a href="#" class="hover:text-yellow-300">Home</a>
+          <a href="#tentang" class="hover:text-yellow-300">Tentang Kami</a>
+          <div class="relative group">
+            <button class="flex items-center gap-1 hover:text-yellow-300">
+              Media Sosial <i class="ph ph-caret-down"></i>
+            </button>
+            <div
+              class="absolute hidden group-hover:flex flex-col mt-1 bg-white text-black rounded shadow text-sm z-10"
+            >
+              <a
+                href="https://www.instagram.com/"
+                target="_blank"
+                class="px-4 py-2 hover:bg-orange-100 flex items-center gap-1"
+                ><i class="ph ph-instagram-logo"></i> Instagram</a
+              >
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                class="px-4 py-2 hover:bg-orange-100 flex items-center gap-1"
+                ><i class="ph ph-facebook-logo"></i> Facebook</a
+              >
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <nav
+      id="mobileMenu"
+      class="fixed top-0 right-0 w-64 h-full bg-orange-100 text-black z-50 transform translate-x-full slide-menu shadow-lg p-4 flex flex-col text-sm"
+    >
+      <button id="closeMenu" class="self-end text-xl mb-4">
+        <i class="ph ph-x"></i>
+      </button>
+      <a href="#" class="mb-2 hover:text-orange-500 mobile-link">Home</a>
+      <a href="#tentang" class="mb-2 hover:text-orange-500 mobile-link"
+        >Tentang Kami</a
+      >
+      <div class="mb-2">
+        <button
+          onclick="toggleSubmenu()"
+          class="flex justify-between items-center w-full hover:text-orange-500"
+        >
+          Media Sosial <i id="sosmedIcon" class="ph ph-caret-down"></i>
+        </button>
+        <div id="sosmedSubmenu" class="hidden ml-4 mt-2 space-y-2">
+          <a
+            href="https://www.instagram.com/"
+            target="_blank"
+            class="flex items-center gap-1 hover:text-orange-500 mobile-link"
+            ><i class="ph ph-instagram-logo"></i> Instagram</a
+          >
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            class="flex items-center gap-1 hover:text-orange-500 mobile-link"
+            ><i class="ph ph-facebook-logo"></i> Facebook</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Kategori -->
+    <div
+      class="overflow-x-auto whitespace-nowrap p-3 bg-white text-sm border-b sticky top-[112px] z-40 md:hidden"
+    >
+      <div class="flex gap-2 w-max">
+        <button
+          class="filter-btn bg-orange-100 text-orange-500 px-3 py-1 rounded-full whitespace-nowrap"
+          onclick="filterKategori(event, 'rekomendasi')"
+        >
+          Rekomendasi
+        </button>
+        <button
+          class="filter-btn px-3 py-1 rounded-full whitespace-nowrap"
+          onclick="filterKategori(event, 'handphone')"
+        >
+          Handphone & Aksesoris
+        </button>
+        <button
+          class="filter-btn px-3 py-1 rounded-full whitespace-nowrap"
+          onclick="filterKategori(event, 'fashion')"
+        >
+          Fashion
+        </button>
+        <button
+          class="filter-btn px-3 py-1 rounded-full whitespace-nowrap"
+          onclick="filterKategori(event, 'elektronik')"
+        >
+          Elektronik
+        </button>
+        <button
+          class="filter-btn px-3 py-1 rounded-full whitespace-nowrap"
+          onclick="filterKategori(event, 'kesehatan')"
+        >
+          Kesehatan
+        </button>
+        <button
+          class="filter-btn px-3 py-1 rounded-full whitespace-nowrap"
+          onclick="filterKategori(event, 'komputer')"
+        >
+          Komputer & Aksesoris
+        </button>
+        </button>
+      </div>
+    </div>
+
+    <!-- Kategori Desktop -->
+    <div
+      class="hidden md:flex justify-center gap-3 py-4 bg-white text-sm border-b sticky top-[64px] z-40"
+    >
+      <button
+        class="filter-btn bg-orange-100 text-orange-500 px-4 py-2 rounded-full"
+        onclick="filterKategori(event, 'rekomendasi')"
+      >
+        Rekomendasi
+      </button>
+      <button
+        class="filter-btn px-4 py-2 rounded-full"
+        onclick="filterKategori(event, 'handphone')"
+      >
+        Handhpone & Aksesoris
+      </button>
+      <button
+        class="filter-btn px-4 py-2 rounded-full"
+        onclick="filterKategori(event, 'fashion')"
+      >
+        Fashion
+      </button>
+      <button
+        class="filter-btn px-4 py-2 rounded-full"
+        onclick="filterKategori(event, 'elektronik')"
+      >
+        Elektronik
+      </button>
+      <button
+        class="filter-btn px-4 py-2 rounded-full"
+        onclick="filterKategori(event, 'kesehatan')"
+      >
+        Kesehatan
+      </button>
+      <button
+        class="filter-btn px-4 py-2 rounded-full"
+        onclick="filterKategori(event, 'komputer')"
+      >
+        Komputer & Aksesoris
+      </button>
+      </button>
+    </div>
+
+    <!-- Produk -->
+    <section
+      id="produkList"
+      class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4 p-4"
+    >
+      <!-- Produk 1 -->
+      <a
+        href="https://s.shopee.co.id/1g7B4SJUqA"
+        target="_blank"
+        class="produk-card rekomendasi elektronik relative bg-white rounded shadow-sm overflow-hidden block hover:shadow-md transition"
+      >
+        <span class="badge badge-mall">Mall | 0ri</span>
+        <img
+          src="img/produk1-jpg.jpeg"
+          alt="Produk"
+          class="w-full h-40 object-cover"
+        />
+        <div class="p-2 text-sm">
+          <p class="font-medium leading-tight">
+            【GPS】Aolon Navi R3 Jam Tangan Smartwatch GPS ...
+          </p>
+          <p class="line-through text-gray-400 text-xs">Rp 2.599.000</p>
+          <p class="text-orange-600 font-bold">Rp 839.000</p>
+          <div class="text-xs text-gray-500 mt-1">⭐4.8 | 9,3RB terjual</div>
+          <div class="text-[11px] font-semibold text-orange-500 mt-1">
+            SPaylater: Diskon 100%
+          </div>
+          <div
+            class="btn-beli block text-center bg-orange-500 hover:bg-orange-600 text-white rounded mt-2 text-xs py-1"
+          >
+            Beli Sekarang
+          </div>
+        </div>
+      </a>
+
+      <!-- Produk 2 -->
+      <a
+        href="https://s.shopee.co.id/1VnseCkVXw"
+        target="_blank"
+        class="produk-card rumah relative bg-white rounded shadow-sm overflow-hidden block hover:shadow-md transition"
+      >
+        <span class="badge badge-mall">Mall | Ori</span>
+        <img
+          src="img/produk2-jpg.jpeg"
+          alt="Produk"
+          class="w-full h-40 object-cover"
+        />
+        <div class="p-2 text-sm">
+          <p class="font-medium leading-tight">
+            SPEEDS Meja Kurs Lipat Set Free Meja Lipat Kursi Lipat ...
+          </p>
+          <p class="line-through text-gray-400 text-xs">Rp 120.000</p>
+          <p class="text-orange-600 font-bold">Rp 109.760</p>
+          <div class="text-xs text-gray-500 mt-1">⭐4.8 | 3,5RB terjual</div>
+          <div class="text-[11px] font-semibold text-orange-500 mt-1">
+            SPaylater: Diskon 100%
+          </div>
+          <div
+            class="btn-beli block text-center bg-orange-500 hover:bg-orange-600 text-white rounded mt-2 text-xs py-1"
+          >
+            Beli Sekarang
+          </div>
+        </div>
+      </a>
+
+      <!-- Produk 3 -->
+      <a
+        href="https://s.shopee.co.id/2LMzj2pqXI"
+        target="_blank"
+        class="produk-card fashion relative bg-white rounded shadow-sm overflow-hidden block hover:shadow-md transition"
+      >
+        <span class="badge badge-star">Star+</span>
+        <img
+          src="img/produk3-jpg.jpg"
+          alt="Smartphone"
+          class="w-full h-40 object-cover"
+        />
+        <div class="p-2 text-sm">
+          <p class="font-medium leading-tight">
+            ALHAFSA - Mukena Dewasa 2in1 Silk Mysha Armanie
+          </p>
+          <p class="line-through text-gray-400 text-xs">Rp 300.000</p>
+          <p class="text-orange-600 font-bold">Rp 116.250</p>
+          <div class="text-xs text-gray-500 mt-1">⭐4.9 | 10RB+ terjual</div>
+          <div class="text-[11px] font-semibold text-orange-500 mt-1">
+            SPaylater: Diskon 100%
+          </div>
+          <div
+            class="btn-beli block text-center bg-orange-500 hover:bg-orange-600 text-white rounded mt-2 text-xs py-1"
+          >
+            Beli Sekarang
+          </div>
+        </div>
+      </a>
+
+      <!-- Produk 4 -->
+      <a
+        href="https://s.shopee.co.id/40VDikoiun"
+        target="_blank"
+        class="produk-card kesehatan rekomendasi relative bg-white rounded shadow-sm overflow-hidden block hover:shadow-md transition"
+      >
+        <span class="badge badge-mall">Mall | Ori</span>
+        <img
+          src="img/produk4-jpg.jpg"
+          alt="Smartphone"
+          class="w-full h-40 object-cover"
+        />
+        <div class="p-2 text-sm">
+          <p class="font-medium leading-tight">
+            Omron Tensimeter Digital HEM-7124
+          </p>
+          <p class="line-through text-gray-400 text-xs">Rp 829.900</p>
+          <p class="text-orange-600 font-bold">Rp 357.300</p>
+          <div class="text-xs text-gray-500 mt-1">⭐4.9 | 10RB+ terjual</div>
+          <div class="text-[11px] font-semibold text-orange-500 mt-1">
+            SPaylater: Diskon 100%
+          </div>
+          <div
+            class="btn-beli block text-center bg-orange-500 hover:bg-orange-600 text-white rounded mt-2 text-xs py-1"
+          >
+            Beli Sekarang
+          </div>
+        </div>
+      </a>
+
+      <!-- Produk 5 -->
+      <a
+      href="https://s.shopee.co.id/4q4Mx9DVkS"
+      target="_blank"
+      class="produk-card rekomendasi relative bg-white rounded shadow-sm overflow-hidden block hover:shadow-md transition"
+    >
+      <span class="badge badge-mall">Mall | Ori</span>
+      <img
+        src="img/produk5-jpg.jpg"
+        alt="Smartphone"
+        class="w-full h-40 object-cover"
+      />
+      <div class="p-2 text-sm">
+        <p class="font-medium leading-tight">Hongzhuo Termos Air Milk Tea Bucket Water 8 10 12 ...
+        </p>
+        <p class="line-through text-gray-400 text-xs">Rp 399.999</p>
+        <p class="text-orange-600 font-bold">Rp 164.900</p>
+        <div class="text-xs text-gray-500 mt-1">⭐4.7 | 10RB+ terjual</div>
+        <div class="text-[11px] font-semibold text-orange-500 mt-1">
+          SPaylater: Diskon 100%
+        </div>
+        <div
+          class="btn-beli block text-center bg-orange-500 hover:bg-orange-600 text-white rounded mt-2 text-xs py-1"
+        >
+          Beli Sekarang
+        </div>
+      </div>
+    </a>
+
+     <!-- Produk 6 -->
+     <a
+     href="https://s.shopee.co.id/4VRWZy6G4O"
+     target="_blank"
+     class="produk-card rekomendasi komputer relative bg-white rounded shadow-sm overflow-hidden block hover:shadow-md transition"
+   > 
+     <span class="badge badge-mall">Mall | Ori</span>
+     <img
+       src="img/produk6-jpg.jpg"
+       alt="Smartphone"
+       class="w-full h-40 object-cover"
+     />
+     <div class="p-2 text-sm">
+       <p class="font-medium leading-tight">(Free Mouse Keyboard Case) Luxis Tablet Pro12 ...
+       </p>
+       <p class="line-through text-gray-400 text-xs">Rp 2.560.000</p>
+       <p class="text-orange-600 font-bold">Rp 1.220.000</p>
+       <div class="text-xs text-gray-500 mt-1">⭐4.6 | 1,7RB terjual</div>
+       <div class="text-[11px] font-semibold text-orange-500 mt-1">
+         SPaylater: Diskon 100%
+       </div>
+       <div
+         class="btn-beli block text-center bg-orange-500 hover:bg-orange-600 text-white rounded mt-2 text-xs py-1"
+       >
+         Beli Sekarang
+       </div>
+     </div>
+   </a>
+
+   <!-- Produk 7 -->
+   <a
+   href="https://s.shopee.co.id/6AZkaWWJwf"
+   target="_blank"
+   class="produk-card rekomendasi handphone relative bg-white rounded shadow-sm overflow-hidden block hover:shadow-md transition"
+ > 
+   <span class="badge badge-mall">Mall | Ori</span>
+   <img
+     src="img/produk7-jpg.jpg"
+     alt="Smartphone"
+     class="w-full h-40 object-cover"
+   />
+   <div class="p-2 text-sm">
+     <p class="font-medium leading-tight">WANKEI LENTIVEN Powerbank 10000mAh Mini ...
+     </p>
+     <p class="line-through text-gray-400 text-xs">Rp 145.000</p>
+     <p class="text-orange-600 font-bold">Rp 100.000</p>
+     <div class="text-xs text-gray-500 mt-1">⭐4.5 | 5,2RB terjual</div>
+     <div class="text-[11px] font-semibold text-orange-500 mt-1">
+       SPaylater: Diskon 100%
+     </div>
+     <div
+       class="btn-beli block text-center bg-orange-500 hover:bg-orange-600 text-white rounded mt-2 text-xs py-1"
+     >
+       Beli Sekarang
+     </div>
+   </div>
+ </a>
+
+      <!-- Tambahkan produk lainnya -->
+    </section>
+
+    <!-- Tentang -->
+    <section
+      id="tentang"
+      class="p-6 bg-white text-black mt-6 rounded shadow max-w-3xl mx-auto text-center"
+    >
+      <h2 class="text-lg font-semibold mb-2">Tentang Kami</h2>
+      <p class="text-sm text-gray-700">
+        PromoCuanID adalah platform kurasi promo terbaik dari Shopee,
+        menghadirkan produk unggulan, harga miring, dan diskon menarik setiap
+        hari.
+      </p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center text-xs text-gray-500 py-4">
+      © 2025 ShopeeKik ID. Powered by Shopee Affiliate.
+    </footer>
+
+    <!-- Fullscreen Search -->
+    <div id="fullscreenSearch" class="hidden fullscreen-search">
+      <div class="flex items-center gap-2 mb-4">
+        <button onclick="exitFullscreenSearch()" class="text-xl">
+          <i class="ph ph-arrow-left"></i>
+        </button>
+        <input
+          type="text"
+          id="fullscreenSearchInput"
+          placeholder="Cari produk..."
+          class="flex-grow border px-3 py-2 rounded text-black"
+          oninput="filterProdukFullscreen()"
+        />
+        <button onclick="clearFullscreenSearch()" title="Hapus">
+          <i class="ph ph-x-circle text-xl"></i>
+        </button>
+      </div>
+      <div
+        id="fullscreenResults"
+        class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4 mt-6 px-2"
+      ></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
